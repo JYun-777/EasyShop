@@ -66,7 +66,24 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
 
     @Override
     public void addProductToCart(int userId, int productId){
-        String sql = "INSERT INTO shopping_cart (user_id, product_id, quantity) VALUES (?, ?, 1)";
+
+        //dummied out in favor of MERGE
+        //String sql = "INSERT INTO shopping_cart (user_id, product_id, quantity) VALUES (?, ?, 1)";
+
+        //Merge statement compares the shopping cart table
+        //to a temporary table row containing the user_id and product_id,
+        //merging and incrementing the quantity when matched,
+        //inserting as new if not.
+        String sql = """
+        MERGE INTO shopping_cart AS target
+        USING (SELECT ? AS user_id, ? AS product_id) AS source
+        ON target.user_id = source.user_id AND target.product_id = source.product_id
+        WHEN MATCHED THEN
+            UPDATE SET quantity = quantity + 1
+        WHEN NOT MATCHED THEN
+            INSERT (user_id, product_id, quantity)
+            VALUES (source.user_id, source.product_id, 1);
+        """;
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
