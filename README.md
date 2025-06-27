@@ -32,6 +32,6 @@ String sql = """
             VALUES (source.user_id, source.product_id, 1);
         """;
 ```
-This solution was developed with assistance from ChatGPT. Here's the relevant conversation log:: https://chatgpt.com/share/685e808d-c188-8010-a34d-f73206ca41aa.
+This solution was developed with assistance from ChatGPT. Here's the relevant conversation log: https://chatgpt.com/share/685e808d-c188-8010-a34d-f73206ca41aa.
 
 It was an educational experience to see this solution, as it taught me more about generally accepted REST practices (as this solution uses POST for a function usually reserved for PUT) as well as teaching me about MERGE: https://www.geeksforgeeks.org/merge-statement-sql-explained/.
